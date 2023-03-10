@@ -1,0 +1,3 @@
+This is a telegram bot for bulk downloading images from the unplash.com service using the service's API.
+
+python3 bot.py
