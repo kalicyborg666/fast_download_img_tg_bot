@@ -38,17 +38,19 @@ def telegram_bot(token):
         def start_message(message):
             lst_menu = ('/download',)
             markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            [markup.add(telebot.types.KeyboardButton(word)) for word in lst_menu]
+            [markup.add(telebot.types.KeyboardButton(word))
+             for word in lst_menu]
             bot.send_message(
                 message.chat.id, "Hello, this bot help you download more images", reply_markup=markup)
-            
+
         query_bot = {}
 
         @bot.message_handler(commands=["download"])
         def download(message):
             lst_names_size = ('Small', 'Medium', 'Full')
             markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            [markup.add(telebot.types.KeyboardButton(word)) for word in lst_names_size]
+            [markup.add(telebot.types.KeyboardButton(word))
+             for word in lst_names_size]
             msg = bot.send_message(
                 message.chat.id, "Select photo size: Small, Medium, Full", reply_markup=markup)
             bot.register_next_step_handler(msg, download_size)
@@ -68,9 +70,10 @@ def telegram_bot(token):
 
         def download_search(message):
             query_bot['search_word'] = message.text
-            lst_count_img = (10,20,30,40,50,100)
+            lst_count_img = (10, 20, 30, 40, 50, 100)
             markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-            [markup.add(telebot.types.KeyboardButton(num)) for num in lst_count_img]
+            [markup.add(telebot.types.KeyboardButton(num))
+             for num in lst_count_img]
             msg = bot.send_message(
                 message.chat.id, "Choise or enter number: (Enter quantity in multiples of 10. Min.value=10)", reply_markup=markup)
             bot.register_next_step_handler(msg, download_count)
@@ -82,13 +85,15 @@ def telegram_bot(token):
             send_img_group_from_url(
                 count_files, lst_url_img, message, download_img_in_server)
             bot.send_message(message.chat.id, time_download)
-            bot.send_message(message.chat.id, count_files_text, reply_markup=telebot.types.ReplyKeyboardRemove())
-        
+            bot.send_message(message.chat.id, count_files_text,
+                             reply_markup=telebot.types.ReplyKeyboardRemove())
+
     except telebot.apihelper.ApiTelegramException as ex:
         @bot.message_handler()
         def outputerror(message):
             bot.send_message(message.chat.id, 'Try again later.')
     bot.polling()
+
 
 if __name__ == '__main__':
     telegram_bot(token)
